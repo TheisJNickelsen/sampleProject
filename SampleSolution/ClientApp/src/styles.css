@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+.top-icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}
+
+
+.outer {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+.middle {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.inner {
+  margin-left: auto;
+  margin-right: auto;
+  width: 14rem;
+}
+
+.card-wrapper {
+  perspective: 800px;
+}

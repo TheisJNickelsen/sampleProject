@@ -1,0 +1,45 @@
+<div style="margin-top: 10px">
+
+  <h1>{{pageTitle}}</h1>
+
+  <div class="form-group row" style="margin-top: 10px">
+    <label for="example-text-input" class="col-3 col-form-label">First name</label>
+    <div class="col-9">
+      <input class="form-control" type="text" [(ngModel)]="firstName" id="firstname">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="example-text-input" class="col-3 col-form-label">Middle name</label>
+    <div class="col-9">
+      <input class="form-control" type="text" [(ngModel)]="middleName" id="middlename">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="example-text-input" class="col-3 col-form-label">Last name</label>
+    <div class="col-9">
+      <input class="form-control" type="text" [(ngModel)]="lastName" id="lastname">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="example-text-input" class="col-3 col-form-label">Title</label>
+    <div class="col-9">
+      <input class="form-control" type="text" [(ngModel)]="title" id="title">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="example-url-input" class="col-3 col-form-label">Facebook</label>
+    <div class="col-9">
+      <input class="form-control" type="url" [(ngModel)]="facebookUrl">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="example-color-input" class="col-3 col-form-label">Color</label>
+    <div class="col-9">
+      <input class="form-control" type="color" [(ngModel)]="colorCode">
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-dark" (click)="submit()">{{submitBtnText}}</button>
+  <button type="button" class="btn btn-dark" (click)="delete()">Delete</button>
+
+</div>
