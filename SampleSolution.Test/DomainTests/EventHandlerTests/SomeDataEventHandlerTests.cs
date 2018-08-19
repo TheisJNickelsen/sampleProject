@@ -8,13 +8,13 @@ using Xunit;
 
 namespace SampleSolution.Test.DomainTests.EventHandlerTests
 {
-    public class MySampleSolutionEventHandlerTests : SomeDataTestBase
+    public class SomeDataEventHandlerTests : SomeDataTestBase
     {
         private readonly Mock<IDocumentSession> _session;
         private readonly List<Object> _events;
-        private readonly MySampleSolutionEventHandler _eventHandler;
+        private readonly SomeDataEventHandler _eventHandler;
 
-        public MySampleSolutionEventHandlerTests()
+        public SomeDataEventHandlerTests()
         {
             _events = new List<Object>();
 
@@ -25,7 +25,7 @@ namespace SampleSolution.Test.DomainTests.EventHandlerTests
                 }
             );
 
-            _eventHandler = new MySampleSolutionEventHandler(_session.Object);
+            _eventHandler = new SomeDataEventHandler(_session.Object);
         }
 
         [Fact]
