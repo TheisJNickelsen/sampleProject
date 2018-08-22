@@ -30,6 +30,7 @@ using SampleSolution.Services;
 using System;
 using System.Reflection;
 using System.Text;
+using SampleSolution.Data.Contexts.MongoDb;
 
 namespace SampleSolution
 {
@@ -50,6 +51,14 @@ namespace SampleSolution
         {
             ConfigureSignalR(services);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.Configure<MongoDbSettings>(options =>
+            {
+                options.ConnectionString
+                    = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                options.Database
+                    = Configuration.GetSection("MongoConnection:Database").Value;
+            });
 
             //ConfigureMediator(services);
             services.AddScoped<IMediator, Mediator>();

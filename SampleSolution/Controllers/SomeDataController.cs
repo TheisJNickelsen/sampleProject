@@ -46,9 +46,9 @@ namespace SampleSolution.Controllers
 
             var userEmail = HttpContextHelpers.GetCurrentUserEmail(User);
             var myData = _someDataReadService.GetSomeData(userEmail);
-            var SampleSolutionDto = mapper.Map<List<SomeAggregate>, List<SomeDataDto>>(myData);
+            var someData = mapper.Map<List<SomeAggregate>, List<SomeDataDto>>(myData);
 
-            return SampleSolutionDto;
+            return someData;
         }
 
         [HttpPost]

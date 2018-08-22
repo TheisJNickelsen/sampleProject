@@ -5,6 +5,8 @@ import { SomeData } from "../../shared/data-obj/models/some-data";
 import { MessageService } from "../../shared/services/message-service/message.service";
 import { SomeDataService } from "./services/some-data.service";
 import { DeleteDto } from './models/deleteDto';
+import { StreamService } from "./services/stream.service";
+import { StreamResult } from "./models/streamResult";
 
 @Component({
   selector: 'some-data',
@@ -14,9 +16,12 @@ import { DeleteDto } from './models/deleteDto';
 export class SomeDataComponent {
   public someData: SomeData[];
 
+  results: StreamResult[];
+
   constructor(private router: Router,
     private messageService: MessageService,
-    private someDataService: SomeDataService) {
+    private someDataService: SomeDataService,
+    private streamService: StreamService) {
 
     someDataService.getSampleSolution().subscribe(result => {
       console.log(result);
@@ -43,6 +48,15 @@ export class SomeDataComponent {
     },
       error => console.error(error));
 
+  }
+
+  shareClick(entry: SomeData) {
+
+  }
+
+  updateResults(results: StreamResult[]): void {
+    console.log(results);
+    this.results = results;
   }
 }
 

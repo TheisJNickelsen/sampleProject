@@ -32,6 +32,11 @@ export class SomeDataService {
     return this.http.put(this.baseUrl + 'api/SomeData', editDto, { headers });
   }
 
+  share(editDto: SomeData): Observable<{}> {
+    let headers = this.buildHeaders();
+    return this.http.put(this.baseUrl + 'api/SomeData', editDto, { headers });
+  }
+
   private buildHeaders(): HttpHeaders {
     let authToken = localStorage.getItem('auth_token');
 

@@ -32,6 +32,8 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\dashboard\some-data\models\createDto.ts" />
     <None Remove="ClientApp\src\app\dashboard\some-data\models\deleteDto.ts" />
+    <None Remove="ClientApp\src\app\dashboard\some-data\models\shareDto.ts" />
+    <None Remove="ClientApp\src\app\dashboard\some-data\models\streamResult.ts" />
     <None Remove="ClientApp\src\app\shared\models\credentialsDto.ts" />
     <None Remove="ClientApp\src\app\shared\models\facebookAuthDto.ts" />
   </ItemGroup>
@@ -49,7 +51,9 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\dashboard\some-data\models\createDto.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\dashboard\some-data\models\shareDto.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\dashboard\some-data\models\deleteDto.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\dashboard\some-data\models\streamResult.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\credentialsDto.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\models\facebookAuthDto.ts" />
   </ItemGroup>

@@ -36,5 +36,6 @@ namespace SampleSolution.Domain.Commands.Commands
         public DateTime CreationDate { get; }
         public FacebookUrl FacebookUrl { get; }
         public string UserEmail { get; }
+
     }
 }

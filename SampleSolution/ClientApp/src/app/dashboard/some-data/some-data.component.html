@@ -5,40 +5,63 @@
 
   <table class="table">
     <thead>
-      <tr>
-        <th scope="col">First</th>
-        <th scope="col">Middle</th>
-        <th scope="col">Last</th>
-        <th scope="col">Title</th>
-        <th scope="col">Facebook</th>
-        <th scope="col">Color</th>
-        <th scope="col">Actions</th>
-      </tr>
+    <tr>
+      <th scope="col">First</th>
+      <th scope="col">Middle</th>
+      <th scope="col">Last</th>
+      <th scope="col">Title</th>
+      <th scope="col">Facebook</th>
+      <th scope="col">Color</th>
+      <th scope="col">Actions</th>
+    </tr>
     </thead>
-      <tbody>
-        <tr *ngFor="let entry of someData">
-          <td>{{entry.firstName}}</td>
-          <td>{{entry.middleName}}</td>
-          <td>{{entry.lastName}}</td>
-          <td>{{entry.title}}</td>
-          <td>
-            <a href="{{entry.facebookUrl}}" target="_blank">{{entry.facebookUrl}}</a>
-          </td>
-          <td>{{entry.color}}</td>
-          <td>
-            <button type="button" class="btn btn-primary" (click)="editClick(entry)">
-              Edit
-            </button>
-            <button type="button" class="btn btn-primary" (click)="deleteClick(entry)">
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <tbody>
+    <tr *ngFor="let entry of someData">
+      <td>{{entry.firstName}}</td>
+      <td>{{entry.middleName}}</td>
+      <td>{{entry.lastName}}</td>
+      <td>{{entry.title}}</td>
+      <td>
+        <a href="{{entry.facebookUrl}}" target="_blank">{{entry.facebookUrl}}</a>
+      </td>
+      <td>{{entry.color}}</td>
+      <td>
 
-    <button type="button" class="btn btn-primary" (click)="createClick()">
-      Create 
-    </button>
+        <ng-template #popContent>
+          <div>
+            <app-user-search-box-component (loading)="loading = $event"
+                                           (results)="updateResults($event)">
+            </app-user-search-box-component>
+
+            <div style="height: 300px">
+              <app-user-search-result
+                *ngFor="let result of results"
+                [result]="result">
+              </app-user-search-result>
+            </div>
+
+          </div>
+        </ng-template>
+
+        <button type="button" class="btn btn-primary" placement="bottom"
+                [ngbPopover]="popContent" popoverTitle="Send to">
+          Share
+        </button>
+        <button type="button" class="btn btn-primary" (click)="editClick(entry)">
+          Edit
+        </button>
+        <button type="button" class="btn btn-primary" (click)="deleteClick(entry)">
+          Delete
+        </button>
+
+
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <button type="button" class="btn btn-primary" (click)="createClick()">
+    Create 
+  </button>
 </div>
 
