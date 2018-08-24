@@ -55,7 +55,6 @@ export class SomeDataComponent {
   }
 
   updateResults(results: StreamResult[]): void {
-    console.log(results);
     this.results = results;
   }
 }

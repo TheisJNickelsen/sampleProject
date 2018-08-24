@@ -31,15 +31,22 @@ export class UserSearchBoxComponentComponent implements OnInit {
   ngOnInit() {
     Observable.fromEvent(this.el.nativeElement, 'keyup')
       .map((e: any) => e.target.value)
-      .filter((text: string) => text.length > 1)
+      .filter((text: string) => {
+        if (text.length > 0) {
+          return true;
+        } else {
+          this.results.emit(null);
+          return false;
+        }
+      })
       .debounceTime(250)
       .do(() => this.loading.emit(true))
       .map((query: string) => this.streamService.search(query))
       .switch()
       .subscribe((results: StreamResult[]) => {
+          console.log(results);
           this.loading.emit(false);
           this.results.emit(results);
-          console.log(results);
         },
         (err: any) => {
           console.log(err);

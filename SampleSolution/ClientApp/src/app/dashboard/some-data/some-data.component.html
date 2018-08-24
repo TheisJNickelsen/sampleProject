@@ -28,7 +28,7 @@
       <td>
 
         <ng-template #popContent>
-          <div>
+          <div class="popover-content">
             <app-user-search-box-component (loading)="loading = $event"
                                            (results)="updateResults($event)">
             </app-user-search-box-component>
@@ -39,12 +39,16 @@
                 [result]="result">
               </app-user-search-result>
             </div>
-
           </div>
         </ng-template>
 
         <button type="button" class="btn btn-primary" placement="bottom"
-                [ngbPopover]="popContent" popoverTitle="Send to">
+                [ngbPopover]="popContent"
+                popoverTitle="Send to"
+                popover-class="popover-content"
+                autoClose="'outside'" >
+
+          <!--#p="ngbPopover" (document:click)="p.close()" (click)="$event.stopPropagation()"-->
           Share
         </button>
         <button type="button" class="btn btn-primary" (click)="editClick(entry)">

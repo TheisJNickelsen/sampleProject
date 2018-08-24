@@ -15,6 +15,7 @@ import { SomeDataService } from "./some-data/services/some-data.service";
 import { HomeComponent } from "./home/home.component";
 import { GrowlModule } from 'primeng/primeng';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { StreamService } from './some-data/services/stream.service';
 import { UserSearchResultComponent } from './some-data/user-search-result/user-search-result.component';
 import { UserSearchBoxComponentComponent } from './some-data/user-search-box-component/user-search-box-component.component';

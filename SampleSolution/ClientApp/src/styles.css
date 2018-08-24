@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+.popover {
+  max-width: 400px !important;
+}
+
 @import "~bootstrap/dist/css/bootstrap.css";
 
 .top-icon {
@@ -32,4 +36,8 @@
 
 .card-wrapper {
   perspective: 800px;
+}
+
+.popover {
+  max-width: 450px;
 }
