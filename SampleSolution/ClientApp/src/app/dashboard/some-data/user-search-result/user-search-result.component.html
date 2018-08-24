@@ -1,9 +1,17 @@
 <div>
   <div class="list-group">
-    <a class="list-group-item">
-      <p class="list-group-item-text">
-        {{result.firstName}} {{result.lastName}}
-      </p>
-    </a>
+    <li class="list-group-item borderless">
+      <span class="pull-left">
+        <img class="user-search-image" src="../../../../assets/images/theisnickelsen.jpg" />
+      </span>
+      <div style="display: flex;">
+        <p class="list-group-item-text" style="top: 30%; position: absolute; margin-left:10px">
+          <b>{{result.firstName}} {{result.lastName}}</b>
+        </p>
+      </div>
+      <span class="pull-right">
+        <button class="btn btn-primary" (click)="sendClick(entry)">Send</button>
+      </span>
+    </li>
   </div>
 </div>

@@ -29,17 +29,19 @@
 
         <ng-template #popContent>
           <div class="popover-content">
-            <app-user-search-box-component (loading)="loading = $event"
-                                           (results)="updateResults($event)">
-            </app-user-search-box-component>
+            <div style="margin: 10px;">
+              <app-user-search-box-component (loading)="loading = $event"
+                                             (results)="updateResults($event)">
+              </app-user-search-box-component>
+            </div>
 
-            <div style="height: 300px">
+            <div style="height: 300px; margin-top: 15px; overflow-y: auto;">
               <app-user-search-result
                 *ngFor="let result of results"
                 [result]="result">
               </app-user-search-result>
             </div>
-          </div>
+          </div> 
         </ng-template>
 
         <button type="button" class="btn btn-primary" placement="bottom"
