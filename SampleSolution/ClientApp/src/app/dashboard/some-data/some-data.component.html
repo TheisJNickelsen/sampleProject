@@ -46,15 +46,16 @@
                 [ngbPopover]="popContent"
                 popoverTitle="Send to"
                 popover-class="popover-content"
-                autoClose="'outside'" >
+                [autoClose]="'outside'"
+                style="margin: 2px">
 
           <!--#p="ngbPopover" (document:click)="p.close()" (click)="$event.stopPropagation()"-->
           Share
         </button>
-        <button type="button" class="btn btn-primary" (click)="editClick(entry)">
+        <button type="button" class="btn btn-primary" (click)="editClick(entry)" style="margin: 2px">
           Edit
         </button>
-        <button type="button" class="btn btn-primary" (click)="deleteClick(entry)">
+        <button type="button" class="btn btn-primary" (click)="deleteClick(entry)" style="margin: 2px">
           Delete
         </button>
 

@@ -35,7 +35,7 @@ export class UserService extends BaseService {
     this._authNavStatusSource.next(this.loggedIn);
   }
 
-  register(email: string, password: string, firstName: string, lastName: string, location: string): Observable<UserRegistration> {
+  register(email: string, password: string, firstName: string, lastName: string, location: string): Observable<Object> {
     let body = JSON.stringify({ email, password, firstName, lastName, location });
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let options = { headers: headers };
