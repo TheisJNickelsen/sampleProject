@@ -1,5 +1,7 @@
 ﻿using SampleSolution.Data.Contexts.Models;
+using SampleSolution.Domain.Events.Events;
 using SampleSolution.DTOs;
+using SampleSolution.Models.ElasticSearch;
 
 namespace SampleSolution.Mappers
 {
@@ -14,6 +16,16 @@ namespace SampleSolution.Mappers
                 Email = dto.Email,
                 UserName = dto.Email
             };
+        }
+
+        public static UserStream UserCreatedEventToStream(UserCreatedEvent @event)
+        {
+            return new UserStream(@event.UserId,
+                @event.Email, 
+                @event.FirstName, 
+                @event.MiddleName, 
+                @event.LastName, 
+                @event.ImagePath);
         }
     }
 }

@@ -38,7 +38,15 @@ namespace SampleSolution.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
             var createCommand =
-                new CreateBusinessUserCommand(Guid.NewGuid(), new IdentityId(userIdentity.Id), dto.Location, null, null);
+                new CreateBusinessUserCommand(Guid.NewGuid(), 
+                    new IdentityId(userIdentity.Id), 
+                    dto.Location, 
+                    null, 
+                    null,
+                    new Email(userIdentity.Email), 
+                    userIdentity.FirstName,
+                    null,
+                    userIdentity.LastName);
 
             await _commandBus.Send(createCommand);
 

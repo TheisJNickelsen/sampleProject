@@ -1,6 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ShareSearchQuery } from "../models/shareSearchQuery";
 import { StreamResult } from "../models/streamResult";
 
 @Injectable()

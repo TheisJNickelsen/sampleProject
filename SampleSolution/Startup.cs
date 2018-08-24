@@ -30,7 +30,8 @@ using SampleSolution.Services;
 using System;
 using System.Reflection;
 using System.Text;
-using SampleSolution.Data.Contexts.MongoDb;
+using Nest;
+using SampleSolution.Models.ElasticSearch;
 
 namespace SampleSolution
 {
@@ -52,24 +53,15 @@ namespace SampleSolution
             ConfigureSignalR(services);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.Configure<MongoDbSettings>(options =>
-            {
-                options.ConnectionString
-                    = Configuration.GetSection("MongoConnection:ConnectionString").Value;
-                options.Database
-                    = Configuration.GetSection("MongoConnection:Database").Value;
-            });
+            ConfigureElasticSearch(services);
 
-            //ConfigureMediator(services);
             services.AddScoped<IMediator, Mediator>();
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
 
-            //ConfigureEF(services);
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=SampleSolution.Data;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<SomeDataContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("SampleSolution.Data")));
+            ConfigureEntityFramework(services);
+            
             services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
 
-            //ConfigureMartens
             ConfigureEventStoring(services);
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -89,7 +81,10 @@ namespace SampleSolution
             services.AddScoped<IEventBus, EventBus>();
 
             services.AddScoped<ISomeDataReadService, SomeDataReadService>();
+
             services.AddScoped<ISomeDataRepository, SomeDataRepository>();
+            services.AddScoped<IUserStreamReadRepository, UserStreamReadRepository>();
+            services.AddScoped<IUserStreamWriteRepository, UserStreamWriteRepository>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBusinessUserRepositoy, BusinessUserRepository>();
@@ -106,6 +101,25 @@ namespace SampleSolution
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+        }
+
+        private void ConfigureEntityFramework(IServiceCollection services)
+        {
+            services.AddDbContext<SomeDataContext>(options => options.UseSqlServer(
+                Configuration.GetSection("SomeDataContextConnection:ConnectionString").Value, 
+                b => b.MigrationsAssembly("SampleSolution.Data")));
+        }
+
+        private void ConfigureElasticSearch(IServiceCollection services)
+        {
+            var settings =
+                new ConnectionSettings(new Uri(Configuration.GetSection("ElasticSearchConnection:ConnectionString")
+                        .Value))
+                    .DefaultIndex("default-index")
+                    .DefaultMappingFor<UserStream>(m => m
+                        .IndexName("user-stream"));
+
+            services.AddSingleton<IElasticClient>(new ElasticClient(settings));
         }
 
         private void ConfigureSignalR(IServiceCollection services)

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using SampleSolution.Domain.Events.Events;
 
 namespace SampleSolution.Repositories
 {
-    interface IUserStreamWriteRepository
+    public interface IUserStreamWriteRepository
     {
+        void Add(UserCreatedEvent userCreatedEvent);
     }
 }

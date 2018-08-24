@@ -1,11 +1,10 @@
-﻿using System;
+﻿using SampleSolution.Models.ElasticSearch;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SampleSolution.Repositories
 {
-    interface IUserStreamReadRepository
+    public interface IUserStreamReadRepository
     {
+        List<UserStream> GetByQuery(string query, int limit);
     }
 }

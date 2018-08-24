@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Mail;
 
 namespace SampleSolution.Domain.ValueObjects
 {
@@ -9,12 +10,28 @@ namespace SampleSolution.Domain.ValueObjects
 
         public Email(string value)
         {
-            Value = value ?? throw new ArgumentNullException(nameof(value));
+            if(!IsValidEmail(value)) throw new ArgumentException("{0} is not a valid email address.", value);
+
+            Value = value;
         }
 
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return Value;
+        }
+
+        private static bool IsValidEmail(string email)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(email);
+
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
     }
 }

@@ -76,7 +76,7 @@ namespace SampleSolution.Controllers
                 if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
                 await _commadBus.Send(new CreateBusinessUserCommand(Guid.NewGuid(), new IdentityId(appUser.Id), null,
-                    userInfo.Locale, userInfo.Gender));
+                    userInfo.Locale, userInfo.Gender, new Email(appUser.Email),appUser.FirstName, null, appUser.LastName));
             }
 
             // generate the jwt for the local user...
