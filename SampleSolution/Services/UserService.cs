@@ -1,9 +1,8 @@
-﻿using SampleSolution.Data.Contexts.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using SampleSolution.Data.Contexts;
+using SampleSolution.Data.Contexts.Models;
 using System;
 using System.Threading.Tasks;
-using SampleSolution.Repositories;
-using Microsoft.AspNetCore.Http;
 
 namespace SampleSolution.Services
 {
@@ -11,7 +10,7 @@ namespace SampleSolution.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserService(UserManager<ApplicationUser> userManager)
+        public UserService(UserManager<ApplicationUser> userManager, SomeDataContext dataContext)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
@@ -24,7 +23,7 @@ namespace SampleSolution.Services
             }
             catch(Exception e)
             {
-                throw e;
+                throw;
             }
         }
 

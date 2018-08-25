@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { DeleteDto } from "../models/deleteDto";
 import { CreateDto } from "../models/createDto";
 import { SomeData } from "../../../shared/data-obj/models/some-data";
+import { ShareDto } from "../models/shareDto";
 
 @Injectable()
 export class SomeDataService {
@@ -31,10 +32,13 @@ export class SomeDataService {
     let headers = this.buildHeaders();
     return this.http.put(this.baseUrl + 'api/SomeData', editDto, { headers });
   }
-
-  share(editDto: SomeData): Observable<{}> {
+  
+  share(contactId: string, recipientUserId: string): Observable<{}> {
     let headers = this.buildHeaders();
-    return this.http.put(this.baseUrl + 'api/SomeData', editDto, { headers });
+    let shareDto = new ShareDto();
+    shareDto.contactId = contactId;
+    shareDto.recipientUserId = recipientUserId;
+    return this.http.post(this.baseUrl + 'api/SomeData/share', shareDto, { headers });
   }
 
   private buildHeaders(): HttpHeaders {

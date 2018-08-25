@@ -6,16 +6,16 @@ namespace SampleSolution.Services
 {
     public class SomeDataReadService : ISomeDataReadService
     {
-        private readonly ISomeDataRepository _mySampleSolutionRepository;
+        private readonly ISomeDataWriteRepository _mySampleSolutionRepository;
 
-        public SomeDataReadService(ISomeDataRepository mySampleSolutionRepository)
+        public SomeDataReadService(ISomeDataWriteRepository mySampleSolutionRepository)
         {
             _mySampleSolutionRepository = mySampleSolutionRepository;
         }
 
         public List<SomeAggregate> GetSomeData(string userEmail)
         {
-            return _mySampleSolutionRepository.GetMySampleSolution(userEmail);
+            return _mySampleSolutionRepository.GetSomeData(userEmail);
         }
     }
 }

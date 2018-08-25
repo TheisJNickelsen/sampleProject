@@ -47,11 +47,6 @@ export class SomeDataComponent {
       location.reload();
     },
       error => console.error(error));
-
-  }
-
-  shareClick(entry: SomeData) {
-
   }
 
   updateResults(results: StreamResult[]): void {

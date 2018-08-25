@@ -13,8 +13,8 @@ namespace SampleSolution.Domain.Commands.Commands
             string title, 
             Color color, 
             DateTime creationDate, 
-            FacebookUrl facebookUrl, 
-            string userEmail)
+            FacebookUrl facebookUrl,
+            ApplicationUserId applicationUserId)
         {
             Id = id;
             FirstName = firstName;
@@ -24,7 +24,7 @@ namespace SampleSolution.Domain.Commands.Commands
             Color = color;
             CreationDate = creationDate;
             FacebookUrl = facebookUrl;
-            UserEmail = userEmail;
+            ApplicationUserId = applicationUserId;
         }
 
         public Guid Id { get; }
@@ -35,7 +35,7 @@ namespace SampleSolution.Domain.Commands.Commands
         public Color Color { get; }
         public DateTime CreationDate { get; }
         public FacebookUrl FacebookUrl { get; }
-        public string UserEmail { get; }
+        public ApplicationUserId ApplicationUserId { get; }
 
     }
 }

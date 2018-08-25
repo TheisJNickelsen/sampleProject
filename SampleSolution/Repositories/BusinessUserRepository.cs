@@ -25,13 +25,5 @@ namespace SampleSolution.Repositories
                 context.SaveChanges();
             }
         }
-
-        public BusinessUser GetByApplicationUserId(string applicationUserId)
-        {
-            using (var context = _someDataContext)
-            {
-                return context.BusinessUsers.FirstOrDefault(u => u.IdentityId == applicationUserId);
-            }
-        }
     }
 }

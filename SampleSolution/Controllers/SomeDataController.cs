@@ -1,18 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SampleSolution.Common.Domain.Commands;
-using SampleSolution.Common.Domain.Events;
 using SampleSolution.Domain.Aggregates;
 using SampleSolution.Domain.Commands.Commands;
 using SampleSolution.Domain.ValueObjects;
 using SampleSolution.DTOs;
 using SampleSolution.Helpers;
+using SampleSolution.Repositories;
 using SampleSolution.Services;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SampleSolution.Controllers
 {
@@ -23,14 +22,17 @@ namespace SampleSolution.Controllers
         private readonly ISomeDataReadService _someDataReadService;
         private readonly ICommandBus _commandBus;
         private readonly IUserService _userService;
+        private readonly IBusinessUserRepositoy _businessUserRepositoy;
 
         public SomeDataController(ISomeDataReadService someDataReadService, 
             ICommandBus commandBus,
-            IUserService userService)
+            IUserService userService,
+            IBusinessUserRepositoy businessUserRepositoy)
         {
             _someDataReadService = someDataReadService ?? throw new ArgumentNullException(nameof(someDataReadService));
             _commandBus = commandBus ?? throw new ArgumentNullException(nameof(commandBus));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _businessUserRepositoy = businessUserRepositoy ?? throw new ArgumentNullException(nameof(businessUserRepositoy));
         }
 
         [HttpGet]
@@ -60,6 +62,7 @@ namespace SampleSolution.Controllers
             }
 
             var userEmail = HttpContextHelpers.GetCurrentUserEmail(User);
+            var user = await _userService.FindByEmailAsync(userEmail);
 
             var createCommand = new CreateSomeDataCommand(Guid.NewGuid(),
                 createSomeDataModel.FirstName,
@@ -69,7 +72,7 @@ namespace SampleSolution.Controllers
                 new Color(createSomeDataModel.Color),
                 DateTime.Now,
                 new FacebookUrl(createSomeDataModel.FacebookUrl),
-                userEmail);
+                new ApplicationUserId(user.Id));
 
             await _commandBus.Send(createCommand);
 
@@ -112,5 +115,23 @@ namespace SampleSolution.Controllers
 
             return Ok();
         }
+
+        [HttpPost("share")]
+        public async Task<IActionResult> ShareContact([FromBody] ShareDto shareDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userEmail = HttpContextHelpers.GetCurrentUserEmail(User);
+            var user = await _userService.FindByEmailAsync(userEmail);
+            var shareKardCommand = new ShareContactCommand(shareDto.ContactId, shareDto.RecipientUserId, user.Id);
+
+            await _commandBus.Send(shareKardCommand);
+
+            return Ok();
+        }
+
     }
 }

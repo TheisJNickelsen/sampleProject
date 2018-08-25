@@ -7,19 +7,19 @@ namespace SampleSolution.Mappers
 {
     public static class SomeDataMapper
     {
-        public static Data.Contexts.Models.SomeData CreateSomeDataCommandToPersistanceModel(CreateSomeDataCommand createSomeDataCommand, Guid businessUserId)
+        public static Data.Contexts.Models.SomeData SomeAggregateToPersistanceModel(SomeAggregate aggregate)
         {
             return new Data.Contexts.Models.SomeData
             {
-                Id = createSomeDataCommand.Id,
-                FirstName = createSomeDataCommand.FirstName,
-                MiddleName = createSomeDataCommand.MiddleName,
-                LastName = createSomeDataCommand.LastName,
-                Title = createSomeDataCommand.Title,
-                Color = createSomeDataCommand.Color.Value,
-                CreationDate = createSomeDataCommand.CreationDate,
-                FacebookUrl = createSomeDataCommand.FacebookUrl.Value,
-                BusinessUserId = businessUserId
+                Id = aggregate.Id,
+                FirstName = aggregate.FirstName,
+                MiddleName = aggregate.MiddleName,
+                LastName = aggregate.LastName,
+                Title = aggregate.Title,
+                Color = aggregate.Color.Value,
+                CreationDate = aggregate.CreationDate,
+                FacebookUrl = aggregate.FacebookUrl.Value,
+                BusinessUserId = aggregate.BusinessUserId
             };
         }
 

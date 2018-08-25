@@ -8,26 +8,33 @@ using SampleSolution.Domain.Events.Events;
 using SampleSolution.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
+using SampleSolution.Domain.Aggregates;
+using SampleSolution.Mappers;
 
 namespace SampleSolution.Domain.Commands.CommandHandlers
 {
     public class SomeDataCommandHandler : 
         ICommandHandler<CreateSomeDataCommand>, 
         ICommandHandler<DeleteSomeDataCommand>,
-        ICommandHandler<UpdateSomeDataCommand>
+        ICommandHandler<UpdateSomeDataCommand>,
+        ICommandHandler<ShareContactCommand>
     {
         private readonly IEventBus _eventBus;
-        private readonly ISomeDataRepository _someDataRepository;
+        private readonly ISomeDataWriteRepository _someDataRepository;
+        private readonly IBusinessUserRepositoy _businessUserRepositoy;
 
-        public SomeDataCommandHandler(IEventBus eventBus, ISomeDataRepository someDataRepository)
+        public SomeDataCommandHandler(IEventBus eventBus, ISomeDataWriteRepository someDataRepository, IBusinessUserRepositoy businessUserRepositoy)
         {
             _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
             _someDataRepository = someDataRepository ?? throw new ArgumentNullException(nameof(someDataRepository));
+            _businessUserRepositoy = businessUserRepositoy ?? throw new ArgumentNullException(nameof(businessUserRepositoy));
         }
 
         public Task<Unit> Handle(CreateSomeDataCommand request, CancellationToken cancellationToken)
         {
-            _someDataRepository.Create(request);
+            var someData = SomeAggregate.Create(request);
+
+            _someDataRepository.Create(someData);
 
             _eventBus.Publish(new SomeDataCreatedEvent(request.Id,
                 request.FirstName,
@@ -60,6 +67,13 @@ namespace SampleSolution.Domain.Commands.CommandHandlers
                 request.Color,
                 request.CreationDate,
                 request.FacebookUrl));
+
+            return Unit.Task;
+        }
+
+        public Task<Unit> Handle(ShareContactCommand request, CancellationToken cancellationToken)
+        {
+            _someDataRepository.CopyToNewUser(request);
 
             return Unit.Task;
         }

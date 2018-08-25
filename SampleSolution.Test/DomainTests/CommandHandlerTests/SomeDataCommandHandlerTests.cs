@@ -13,12 +13,12 @@ namespace SampleSolution.Test.DomainTests.CommandHandlerTests
     public class SomeDataCommandHandlerTests : SomeDataTestBase
     {
         private readonly Mock<IEventBus> _eventBusMock;
-        private readonly Mock<ISomeDataRepository> _someDataRepositoryMock;
+        private readonly Mock<ISomeDataWriteRepository> _someDataRepositoryMock;
 
         public SomeDataCommandHandlerTests()
         {
             _eventBusMock = new Mock<IEventBus>();
-            _someDataRepositoryMock = new Mock<ISomeDataRepository>();
+            _someDataRepositoryMock = new Mock<ISomeDataWriteRepository>();
         }
 
         [Fact]

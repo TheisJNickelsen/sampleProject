@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SampleSolution.DTOs;
+using SampleSolution.Models.ElasticSearch;
 using SampleSolution.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using SampleSolution.Models.ElasticSearch;
 
 namespace SampleSolution.Controllers
 {
@@ -26,9 +24,7 @@ namespace SampleSolution.Controllers
         [HttpGet("search", Name = "search")]
         public List<UserStream> SearchUsers([FromQuery] string query, [FromQuery] int limit)
         {
-            var userStream = _userStreamReadRepository.GetByQuery(query, limit);
-
-            return userStream.ToList();
+            return _userStreamReadRepository.GetByQuery(query, limit);
         }
     }
 }

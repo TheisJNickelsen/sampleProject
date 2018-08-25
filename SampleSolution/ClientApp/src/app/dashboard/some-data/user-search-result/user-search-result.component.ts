@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { StreamResult } from "../models/streamResult";
+import { SomeDataService } from "../services/some-data.service";
 
 @Component({
   selector: 'app-user-search-result',
@@ -8,11 +9,22 @@ import { StreamResult } from "../models/streamResult";
 })
 export class UserSearchResultComponent implements OnInit {
   @Input()
-  result:StreamResult;
+  result: StreamResult;
 
-  constructor() { }
+  @Input()
+  contactId: string;
+
+  constructor(private someDataService: SomeDataService) { }
 
   ngOnInit() {
+  }
+
+  sendClick() {
+    console.log(this.contactId + ", " + this.result.userId);
+    this.someDataService.share(this.contactId, this.result.userId).subscribe(result => {
+        location.reload();
+      },
+      error => console.error(error));
   }
 
 }

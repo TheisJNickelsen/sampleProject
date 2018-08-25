@@ -28,6 +28,7 @@ using SampleSolution.Models.Facebook;
 using SampleSolution.Repositories;
 using SampleSolution.Services;
 using System;
+using System.ComponentModel;
 using System.Reflection;
 using System.Text;
 using Nest;
@@ -82,7 +83,7 @@ namespace SampleSolution
 
             services.AddScoped<ISomeDataReadService, SomeDataReadService>();
 
-            services.AddScoped<ISomeDataRepository, SomeDataRepository>();
+            services.AddScoped<ISomeDataWriteRepository, SomeDataWriteRepository>();
             services.AddScoped<IUserStreamReadRepository, UserStreamReadRepository>();
             services.AddScoped<IUserStreamWriteRepository, UserStreamWriteRepository>();
 
@@ -92,6 +93,7 @@ namespace SampleSolution
             services.AddScoped<ICommandHandler<CreateSomeDataCommand>, SomeDataCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateSomeDataCommand>, SomeDataCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteSomeDataCommand>, SomeDataCommandHandler>();
+            services.AddScoped<ICommandHandler<ShareContactCommand>, SomeDataCommandHandler>();
             services.AddScoped<IEventHandler<SomeDataCreatedEvent>, SomeDataEventHandler>();
 
             services.AddScoped<ICommandHandler<CreateBusinessUserCommand>, BusinessUserCommandHandler>();

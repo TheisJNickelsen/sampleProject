@@ -35,7 +35,7 @@ namespace SampleSolution.Test.RepositoryTests
 
             var createSomeDataCommand = BuildCreateSomeDataCommand();
 
-            var someDataRepository = new SomeDataRepository(contextMock.Object);
+            var someDataRepository = new SomeDataWriteRepository(contextMock.Object);
 
             someDataRepository.Create(createSomeDataCommand);
 
@@ -77,7 +77,7 @@ namespace SampleSolution.Test.RepositoryTests
             contextMock.Setup(c => c.SomeData).Returns(someDataMockSet.Object);
             contextMock.Setup(c => c.BusinessUsers).Returns(businessUserMockSet.Object);
 
-            var someDataRepository = new SomeDataRepository(contextMock.Object);
+            var someDataRepository = new SomeDataWriteRepository(contextMock.Object);
 
             var updatedSomeData = new UpdateSomeDataCommand(updateSomeDataCommand.SomeDataId,
                 "NewFirstName",
@@ -89,7 +89,7 @@ namespace SampleSolution.Test.RepositoryTests
                 new FacebookUrl(null));
 
             someDataRepository.Update(updatedSomeData);
-            var updatedDb = someDataRepository.GetMySampleSolution(businessUser.Identity.Email).First();
+            var updatedDb = someDataRepository.GetSomeData(businessUser.Identity.Email).First();
 
             contextMock.Verify(x => x.SaveChanges(), Times.Once);
             Assert.Equal(updatedDb.Id, updatedSomeData.SomeDataId);
@@ -116,7 +116,7 @@ namespace SampleSolution.Test.RepositoryTests
 
             contextMock.Setup(c => c.SomeData).Returns(mockSet.Object);
             
-            var someDataRepository = new SomeDataRepository(contextMock.Object);
+            var someDataRepository = new SomeDataWriteRepository(contextMock.Object);
 
             someDataRepository.Delete(new DeleteSomeDataCommand(someDataDb.Id));
 
