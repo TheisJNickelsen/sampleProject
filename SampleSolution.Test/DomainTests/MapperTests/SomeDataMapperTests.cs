@@ -7,37 +7,36 @@ namespace SampleSolution.Test.DomainTests.MapperTests
     public class SomeDataMapperTests : SomeDataTestBase
     {
         [Fact]
-        public void ShouldMapCorrectlyOnCreateSomeDataCommandToPersistanceModel()
+        public void ShouldMapCorrectlyOnSomeAggregateToPersistanceModel()
         {
-            var createSomeDataCommand = BuildCreateSomeDataCommand();
-            var businessUserId = Guid.NewGuid();
-            var mapped = SomeDataMapper.CreateSomeDataCommandToPersistanceModel(createSomeDataCommand, businessUserId);
+            var aggregate = BuildSomeAggregate();
+            var mapped = SomeDataMapper.SomeAggregateToPersistanceModel(aggregate);
 
-            Assert.Equal(createSomeDataCommand.CreationDate, mapped.CreationDate);
-            Assert.Equal(createSomeDataCommand.FacebookUrl.Value,mapped.FacebookUrl);
-            Assert.Equal(createSomeDataCommand.Color.Value, mapped.Color);
-            Assert.Equal(createSomeDataCommand.FirstName, mapped.FirstName);
-            Assert.Equal(createSomeDataCommand.Id, mapped.Id);
-            Assert.Equal(createSomeDataCommand.LastName, mapped.LastName);
-            Assert.Equal(createSomeDataCommand.MiddleName, mapped.MiddleName);
-            Assert.Equal(createSomeDataCommand.Title, mapped.Title);
-            Assert.Equal(businessUserId, mapped.BusinessUserId);
+            Assert.Equal(aggregate.CreationDate, mapped.CreationDate);
+            Assert.Equal(aggregate.FacebookUrl.Value,mapped.FacebookUrl);
+            Assert.Equal(aggregate.Color.Value, mapped.Color);
+            Assert.Equal(aggregate.FirstName, mapped.FirstName);
+            Assert.Equal(aggregate.Id, mapped.Id);
+            Assert.Equal(aggregate.LastName, mapped.LastName);
+            Assert.Equal(aggregate.MiddleName, mapped.MiddleName);
+            Assert.Equal(aggregate.Title, mapped.Title);
+            Assert.Equal(aggregate.BusinessUserId, mapped.BusinessUserId);
         }
 
         [Fact]
         public void ShouldMapCorrectlyOnPersistanceModelToAggregateRoot()
         {
-            var SomeData = BuildSomeDataPersistanceModel();
-            var aggregateRoot = SomeDataMapper.PersistanceModelToAggregateRoot(SomeData);
+            var someData = BuildSomeDataPersistanceModel();
+            var aggregateRoot = SomeDataMapper.PersistanceModelToAggregateRoot(someData);
 
-            Assert.Equal(aggregateRoot.CreationDate, SomeData.CreationDate);
-            Assert.Equal(aggregateRoot.FacebookUrl.Value, SomeData.FacebookUrl);
-            Assert.Equal(aggregateRoot.Color.Value, SomeData.Color);
-            Assert.Equal(aggregateRoot.FirstName, SomeData.FirstName);
-            Assert.Equal(aggregateRoot.Id, SomeData.Id);
-            Assert.Equal(aggregateRoot.LastName, SomeData.LastName);
-            Assert.Equal(aggregateRoot.MiddleName, SomeData.MiddleName);
-            Assert.Equal(aggregateRoot.Title, SomeData.Title);
+            Assert.Equal(aggregateRoot.CreationDate, someData.CreationDate);
+            Assert.Equal(aggregateRoot.FacebookUrl.Value, someData.FacebookUrl);
+            Assert.Equal(aggregateRoot.Color.Value, someData.Color);
+            Assert.Equal(aggregateRoot.FirstName, someData.FirstName);
+            Assert.Equal(aggregateRoot.Id, someData.Id);
+            Assert.Equal(aggregateRoot.LastName, someData.LastName);
+            Assert.Equal(aggregateRoot.MiddleName, someData.MiddleName);
+            Assert.Equal(aggregateRoot.Title, someData.Title);
         }
     }
 }

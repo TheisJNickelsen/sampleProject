@@ -26,8 +26,7 @@ namespace SampleSolution.Domain.Commands.CommandHandlers
         {
             _businessUserRepositoy.Create(request);
 
-            //TODO: Add images
-            _eventBus.Publish(new UserCreatedEvent(request.Id, request.Email, request.FirstName, request.MiddelName ,request.LastName,
+            _eventBus.Publish(new UserCreatedEvent(request.Id, request.Email, request.FirstName, request.MiddelName, request.LastName,
                 request.Location, null));
 
             return Unit.Task;

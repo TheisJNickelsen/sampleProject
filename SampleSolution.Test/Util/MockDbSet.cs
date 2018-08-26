@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Moq;
 
-namespace SampleSolution.Test.RepositoryTests
+namespace SampleSolution.Test.Util
 {
     public class MockDbSet<TEntity> : Mock<DbSet<TEntity>> where TEntity : class
     {

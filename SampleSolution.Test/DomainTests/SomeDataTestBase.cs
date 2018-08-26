@@ -1,5 +1,6 @@
 ﻿using System;
 using SampleSolution.Data.Contexts.Models;
+using SampleSolution.Domain.Aggregates;
 using SampleSolution.Domain.Commands.Commands;
 using SampleSolution.Domain.Events.Events;
 using SampleSolution.Domain.ValueObjects;
@@ -18,6 +19,44 @@ namespace SampleSolution.Test.DomainTests
         private readonly string facebookUrl = "www.facebook.com/path/file";
         private readonly string businessUserEmail = "someemail@gmail.com";
 
+        public SomeAggregate BuildSomeAggregate()
+        {
+            return SomeAggregate.Create(id,
+                firstName,
+                middleName,
+                lastName,
+                title,
+                new Color(color),
+                creationDate,
+                new FacebookUrl(facebookUrl),
+                Guid.NewGuid());
+        }
+        public SomeAggregate BuildSomeAggregate(Guid someDataId)
+        {
+            return SomeAggregate.Create(someDataId,
+                firstName,
+                middleName,
+                lastName,
+                title,
+                new Color(color),
+                creationDate,
+                new FacebookUrl(facebookUrl),
+                Guid.NewGuid());
+        }
+
+        public SomeAggregate BuildSomeAggregate(SomeData someData)
+        {
+            return SomeAggregate.Create(someData.Id,
+                someData.FirstName,
+                someData.MiddleName,
+                someData.LastName,
+                someData.Title,
+                new Color(someData.Color),
+                someData.CreationDate,
+                new FacebookUrl(someData.FacebookUrl),
+                someData.BusinessUserId);
+        }
+
         public CreateSomeDataCommand BuildCreateSomeDataCommand()
         {
             return new CreateSomeDataCommand(id, 
@@ -27,7 +66,18 @@ namespace SampleSolution.Test.DomainTests
                 new Color(color),
                 creationDate, 
                 new FacebookUrl(facebookUrl),
-                businessUserEmail);
+                new ApplicationUserId(Guid.NewGuid().ToString()));
+        }
+        public CreateSomeDataCommand BuildCreateSomeDataCommand(ApplicationUserId applicationUserId)
+        {
+            return new CreateSomeDataCommand(id,
+                firstName,
+                middleName,
+                lastName, title,
+                new Color(color),
+                creationDate,
+                new FacebookUrl(facebookUrl),
+                applicationUserId);
         }
 
         public DeleteSomeDataCommand BuildDeleteSomeDataCommand()
@@ -53,6 +103,7 @@ namespace SampleSolution.Test.DomainTests
                 Gender = "SomeGender",
                 Locale = "SomeLocale",
                 Location = "SomeLocation",
+                IdentityId = Guid.NewGuid().ToString(),
                 Identity = new ApplicationUser
                 {
                     Email = businessUserEmail

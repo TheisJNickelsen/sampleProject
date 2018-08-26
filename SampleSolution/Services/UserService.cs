@@ -10,7 +10,7 @@ namespace SampleSolution.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserService(UserManager<ApplicationUser> userManager, SomeDataContext dataContext)
+        public UserService(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }

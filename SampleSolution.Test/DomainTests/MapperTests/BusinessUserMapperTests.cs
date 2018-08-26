@@ -15,7 +15,11 @@ namespace SampleSolution.Test.DomainTests.MapperTests
                 new IdentityId(Guid.NewGuid().ToString()),
                 "SomeLocation",
                 "SomeLocale",
-                "SomeGender");
+                "SomeGender",
+                new Email("SomeEmail@some.com"),
+                "SomeFirstName",
+                "SomeMiddleName",
+                "SomeLastName");
 
             var mapped = BusinessUserMapper.CreateBusinessUserCommandToPersistanceModel(command);
 

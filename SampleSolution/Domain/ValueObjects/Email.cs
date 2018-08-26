@@ -10,7 +10,7 @@ namespace SampleSolution.Domain.ValueObjects
 
         public Email(string value)
         {
-            if(!IsValidEmail(value)) throw new ArgumentException("{0} is not a valid email address.", value);
+            if(!IsValidEmail(value)) throw new ArgumentException(String.Format("{0} is not a valid email address.", value));
 
             Value = value;
         }

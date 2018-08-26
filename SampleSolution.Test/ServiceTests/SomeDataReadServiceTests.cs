@@ -9,15 +9,16 @@ namespace SampleSolution.Test.ServiceTests
     public class MySampleSolutionReadServiceTests
     {
         [Fact]
-        public void ShouldGetMySampleSolutionOnGetMySampleSolution()
+        public void ShouldGetSomeDataOnGetSomeData()
         {
             var userId = Guid.NewGuid().ToString();
-            var repository = new Mock<ISomeDataWriteRepository>();
-            var service = new SomeDataReadService(repository.Object);
+            var repositoryWrite = new Mock<ISomeDataWriteRepository>();
+            var repositoryRead = new Mock<ISomeDataReadRepository>();
+            var service = new SomeDataReadService(repositoryWrite.Object, repositoryRead.Object);
 
             service.GetSomeData(userId);
 
-            repository.Verify(r => r.GetSomeData(userId), Times.Once);
+            repositoryRead.Verify(r => r.GetSomeData(userId), Times.Once);
         }
     }
 }

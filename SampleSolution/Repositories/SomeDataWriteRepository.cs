@@ -22,8 +22,7 @@ namespace SampleSolution.Repositories
             {
                 using (var context = SomeDataEntities)
                 {
-                    return SomeDataMapper.PersistanceModelToAggregateRoot(
-                        context.SomeData.FirstOrDefault(d => d.Id == someDataId));
+                    return Get(someDataId, context);
                 }
             }
             catch (Exception e)
@@ -45,11 +44,7 @@ namespace SampleSolution.Repositories
             {
                 using (var context = SomeDataEntities)
                 {
-                    var businessUser =
-                        context.BusinessUsers.FirstOrDefault(u => u.Id == someData.BusinessUserId);
-
-                    var someDatatoSave = SomeDataMapper.SomeAggregateToPersistanceModel(someData);
-                    context.SomeData.Add(someDatatoSave);
+                    Create(someData, context);
                     context.SaveChanges();
                 }
             }
@@ -72,13 +67,8 @@ namespace SampleSolution.Repositories
             {
                 using (var context = SomeDataEntities)
                 {
-                    var someDataToDelete = context.SomeData.FirstOrDefault(d => d.Id == someData.Id);
-
-                    if (someDataToDelete != null)
-                    {
-                        context.SomeData.Remove(someDataToDelete);
-                        context.SaveChanges();
-                    }
+                    Delete(someData, context);
+                    context.SaveChanges();
                 }
             }
             catch (Exception e)
@@ -104,20 +94,8 @@ namespace SampleSolution.Repositories
             {
                 using (var context = SomeDataEntities)
                 {
-                    var someDataToUpdate = context.SomeData.FirstOrDefault(d => d.Id == someData.Id);
-
-                    if (someDataToUpdate != null)
-                    {
-                        someDataToUpdate.Color = someData.Color.Value;
-                        someDataToUpdate.CreationDate = someData.CreationDate;
-                        someDataToUpdate.FacebookUrl = someData.FacebookUrl.Value;
-                        someDataToUpdate.FirstName = someData.FirstName;
-                        someDataToUpdate.LastName = someData.LastName;
-                        someDataToUpdate.MiddleName = someData.MiddleName;
-                        someDataToUpdate.Title = someData.Title;
-
-                        context.SaveChanges();
-                    }
+                    Save(someData);
+                    context.SaveChanges();
                 }
             }
             catch (Exception e)

@@ -12,39 +12,41 @@ using System.Linq;
 using Marten;
 using Xunit;
 using Microsoft.EntityFrameworkCore;
+using SampleSolution.Domain.Aggregates;
+using SampleSolution.Test.Util;
 
 namespace SampleSolution.Test.RepositoryTests
 {
     public class SomeDataRepositoryTests : SomeDataTestBase
     {
         [Fact]
-        public void CreateSampleSolutionhouldAppendToDatabaseAndSaveChanges()
+        public void CreateSomeDataShouldAppendToDatabaseAndSaveChanges()
         {
-            var SampleSolutionDb = new List<SomeData>();
+            var someDataDb = new List<SomeData>();
             var businessUser = BuildBusinessUser();
             var businessUserDb = new List<BusinessUser>
             {
                 businessUser
             };
             var businessUserMockSet = new MockDbSet<BusinessUser>(businessUserDb);
-            var mockSet = new MockDbSet<SomeData>(SampleSolutionDb);
+            var mockSet = new MockDbSet<SomeData>(someDataDb);
             var contextMock = new Mock<SomeDataContext>();
 
             contextMock.Setup(c => c.BusinessUsers).Returns(businessUserMockSet.Object);
             contextMock.Setup(c => c.SomeData).Returns(mockSet.Object);
 
-            var createSomeDataCommand = BuildCreateSomeDataCommand();
+            var someAggregate = BuildSomeAggregate();
 
             var someDataRepository = new SomeDataWriteRepository(contextMock.Object);
 
-            someDataRepository.Create(createSomeDataCommand);
+            someDataRepository.Create(someAggregate);
 
             contextMock.Verify(x => x.SaveChanges(), Times.Once);
-            Assert.Single(SampleSolutionDb);
+            Assert.Single(someDataDb);
         }
 
         [Fact]
-        public void UpdateSampleSolutionhoulUpdateSomeDataInDatabaseAndSaveChanges()
+        public void SaveSomeDataShoulUpdateSomeDataInDatabaseAndSaveChanges()
         {
             var updateSomeDataCommand = BuildUpdateSomeDataCommand();
             var businessUser = new BusinessUser
@@ -79,20 +81,21 @@ namespace SampleSolution.Test.RepositoryTests
 
             var someDataRepository = new SomeDataWriteRepository(contextMock.Object);
 
-            var updatedSomeData = new UpdateSomeDataCommand(updateSomeDataCommand.SomeDataId,
+            var updatedSomeData = SomeAggregate.Create(updateSomeDataCommand.SomeDataId,
                 "NewFirstName",
                 "NewMiddleName",
                 "NewLastName",
                 "NewTitle",
                 new Color("#c1d0c3"),
                 DateTime.Now,
-                new FacebookUrl(null));
+                new FacebookUrl(null),
+                Guid.NewGuid());
 
-            someDataRepository.Update(updatedSomeData);
-            var updatedDb = someDataRepository.GetSomeData(businessUser.Identity.Email).First();
+            someDataRepository.Save(updatedSomeData);
+            var updatedDb = someDataRepository.Get(updateSomeDataCommand.SomeDataId);
 
             contextMock.Verify(x => x.SaveChanges(), Times.Once);
-            Assert.Equal(updatedDb.Id, updatedSomeData.SomeDataId);
+            Assert.Equal(updatedDb.Id, updatedSomeData.Id);
             Assert.Equal(updatedDb.Color, updatedSomeData.Color);
             Assert.Equal(updatedDb.CreationDate, updatedSomeData.CreationDate);
             Assert.Equal(updatedDb.FacebookUrl, updatedSomeData.FacebookUrl);
@@ -103,7 +106,7 @@ namespace SampleSolution.Test.RepositoryTests
         }
 
         [Fact]
-        public void DeleteMySampleSolutionhouldDeleteFromDatabaseAndSaveChanges()
+        public void DeleteSomeDataShouldDeleteFromDatabaseAndSaveChanges()
         {
             var someDataDb = BuildSomeDataPersistanceModel();
             var sampleSolutionDb = new List<SomeData>
@@ -118,7 +121,9 @@ namespace SampleSolution.Test.RepositoryTests
             
             var someDataRepository = new SomeDataWriteRepository(contextMock.Object);
 
-            someDataRepository.Delete(new DeleteSomeDataCommand(someDataDb.Id));
+            var someAggregate = BuildSomeAggregate(someDataDb);
+
+            someDataRepository.Delete(someAggregate);
 
             contextMock.Verify(x => x.SaveChanges(), Times.Once);
             Assert.Empty(sampleSolutionDb);

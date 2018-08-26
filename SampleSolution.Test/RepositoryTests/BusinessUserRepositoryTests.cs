@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using SampleSolution.Mappers;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using SampleSolution.Test.Util;
 
 namespace SampleSolution.Test.RepositoryTests
 {
@@ -31,7 +32,11 @@ namespace SampleSolution.Test.RepositoryTests
                 new IdentityId("SomeId"),
                 "SomeLocation",
                 "SomeLocale",
-                "SomeGender"
+                "SomeGender",
+                new Email("someEmail@some.com"),
+                "SomeFirstName",
+                "SomeMiddleName",
+                "SomeLastName"
             );
             var businessUserRepository = new BusinessUserRepository(contextMock.Object);
 
