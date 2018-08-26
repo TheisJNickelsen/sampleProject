@@ -11,11 +11,11 @@ namespace SampleSolution.Test.DomainTests.CommandHandlerTests
 {
     public class CreateBusinessUserCommandHandlerTests
     {
-        private readonly Mock<IBusinessUserRepositoy> _mySampleSolutionReadRepositoryMock;
+        private readonly Mock<IBusinessUserRepository> _mySampleSolutionReadRepositoryMock;
 
         public CreateBusinessUserCommandHandlerTests()
         {
-            _mySampleSolutionReadRepositoryMock = new Mock<IBusinessUserRepositoy>();
+            _mySampleSolutionReadRepositoryMock = new Mock<IBusinessUserRepository>();
         }
 
         [Fact]

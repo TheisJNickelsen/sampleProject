@@ -33,6 +33,12 @@ namespace SampleSolution.Repositories
             }
         }
 
+        public SomeAggregate Get(Guid someDataId, SomeDataContext dbContext)
+        {
+            return SomeDataMapper.PersistanceModelToAggregateRoot(
+                dbContext.SomeData.FirstOrDefault(d => d.Id == someDataId));
+        }
+
         public void Create(SomeAggregate someData)
         {
             try
@@ -40,11 +46,11 @@ namespace SampleSolution.Repositories
                 using (var context = SomeDataEntities)
                 {
                     var businessUser =
-                        context.BusinessUsers.FirstOrDefault(u => u.Identity.Id == someData.ApplicationUserId.Value);
+                        context.BusinessUsers.FirstOrDefault(u => u.Id == someData.BusinessUserId);
 
                     var someDatatoSave = SomeDataMapper.SomeAggregateToPersistanceModel(someData);
                     context.SomeData.Add(someDatatoSave);
-                    context.SaveChanges();
+                    //context.SaveChanges();
                 }
             }
             catch (Exception e)
@@ -52,6 +58,12 @@ namespace SampleSolution.Repositories
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public void Create(SomeAggregate someData, SomeDataContext dbContext)
+        {
+            var someDatatoSave = SomeDataMapper.SomeAggregateToPersistanceModel(someData);
+            dbContext.SomeData.Add(someDatatoSave);
         }
 
         public void Delete(SomeAggregate someData)
@@ -73,6 +85,16 @@ namespace SampleSolution.Repositories
             {
                 Console.WriteLine(e);
                 throw;
+            }
+        }
+
+        public void Delete(SomeAggregate someData, SomeDataContext dbContext)
+        {
+            var someDataToDelete = dbContext.SomeData.FirstOrDefault(d => d.Id == someData.Id);
+
+            if (someDataToDelete != null)
+            {
+                dbContext.SomeData.Remove(someDataToDelete);
             }
         }
 
@@ -102,6 +124,22 @@ namespace SampleSolution.Repositories
             {
                 Console.WriteLine(e);
                 throw;
+            }
+        }
+
+        public void Save(SomeAggregate someData, SomeDataContext dbContext)
+        {
+            var someDataToUpdate = dbContext.SomeData.FirstOrDefault(d => d.Id == someData.Id);
+
+            if (someDataToUpdate != null)
+            {
+                someDataToUpdate.Color = someData.Color.Value;
+                someDataToUpdate.CreationDate = someData.CreationDate;
+                someDataToUpdate.FacebookUrl = someData.FacebookUrl.Value;
+                someDataToUpdate.FirstName = someData.FirstName;
+                someDataToUpdate.LastName = someData.LastName;
+                someDataToUpdate.MiddleName = someData.MiddleName;
+                someDataToUpdate.Title = someData.Title;
             }
         }
 

@@ -13,10 +13,10 @@ namespace SampleSolution.Domain.Commands.CommandHandlers
     public class BusinessUserCommandHandler :
         ICommandHandler<CreateBusinessUserCommand>
     {
-        private readonly IBusinessUserRepositoy _businessUserRepositoy;
+        private readonly IBusinessUserRepository _businessUserRepositoy;
         private readonly IEventBus _eventBus;
 
-        public BusinessUserCommandHandler(IBusinessUserRepositoy businessUserRepositoy, IEventBus eventBus)
+        public BusinessUserCommandHandler(IBusinessUserRepository businessUserRepositoy, IEventBus eventBus)
         {
             _businessUserRepositoy = businessUserRepositoy ?? throw new ArgumentNullException(nameof(businessUserRepositoy));
             _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
@@ -32,5 +32,11 @@ namespace SampleSolution.Domain.Commands.CommandHandlers
 
             return Unit.Task;
         }
+
+        public void Handle(CreateBusinessUserCommand command)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

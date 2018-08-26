@@ -22,12 +22,12 @@ namespace SampleSolution.Controllers
         private readonly ISomeDataReadService _someDataReadService;
         private readonly ICommandBus _commandBus;
         private readonly IUserService _userService;
-        private readonly IBusinessUserRepositoy _businessUserRepositoy;
+        private readonly IBusinessUserRepository _businessUserRepositoy;
 
         public SomeDataController(ISomeDataReadService someDataReadService, 
             ICommandBus commandBus,
             IUserService userService,
-            IBusinessUserRepositoy businessUserRepositoy)
+            IBusinessUserRepository businessUserRepositoy)
         {
             _someDataReadService = someDataReadService ?? throw new ArgumentNullException(nameof(someDataReadService));
             _commandBus = commandBus ?? throw new ArgumentNullException(nameof(commandBus));

@@ -33,6 +33,8 @@ using System.Reflection;
 using System.Text;
 using Nest;
 using SampleSolution.Models.ElasticSearch;
+using SampleSolution.Repositories.UnitOfWork;
+using IMediator = MediatR.IMediator;
 
 namespace SampleSolution
 {
@@ -52,6 +54,7 @@ namespace SampleSolution
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureSignalR(services);
+            ConfigureEntityFramework(services);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             ConfigureElasticSearch(services);
@@ -59,7 +62,6 @@ namespace SampleSolution
             services.AddScoped<IMediator, Mediator>();
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
 
-            ConfigureEntityFramework(services);
             
             services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
 
@@ -88,14 +90,15 @@ namespace SampleSolution
             services.AddScoped<IUserStreamWriteRepository, UserStreamWriteRepository>();
 
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IBusinessUserRepositoy, BusinessUserRepository>();
+            services.AddScoped<IBusinessUserRepository, BusinessUserRepository>();
+
 
             services.AddScoped<ICommandHandler<CreateSomeDataCommand>, SomeDataCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateSomeDataCommand>, SomeDataCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteSomeDataCommand>, SomeDataCommandHandler>();
             services.AddScoped<ICommandHandler<ShareContactCommand>, SomeDataCommandHandler>();
             services.AddScoped<IEventHandler<SomeDataCreatedEvent>, SomeDataEventHandler>();
-
+            
             services.AddScoped<ICommandHandler<CreateBusinessUserCommand>, BusinessUserCommandHandler>();
 
             // In production, the Angular files will be served from this directory
@@ -110,6 +113,7 @@ namespace SampleSolution
             services.AddDbContext<SomeDataContext>(options => options.UseSqlServer(
                 Configuration.GetSection("SomeDataContextConnection:ConnectionString").Value, 
                 b => b.MigrationsAssembly("SampleSolution.Data")));
+            //services.AddSingleton<IEntityFrameworkUnitOfWork, EntityFrameworkUnitOfWork>();
         }
 
         private void ConfigureElasticSearch(IServiceCollection services)

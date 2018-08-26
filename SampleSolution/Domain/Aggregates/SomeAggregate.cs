@@ -18,7 +18,7 @@ namespace SampleSolution.Domain.Aggregates
         public Color Color { get; protected set; }
         public DateTime CreationDate { get; protected set; }
         public FacebookUrl FacebookUrl { get; protected set; }
-        public ApplicationUserId ApplicationUserId { get; protected set; }
+        public Guid BusinessUserId { get; protected set; }
 
         public static SomeAggregate Create(Guid id, 
             string firstName, 
@@ -28,7 +28,7 @@ namespace SampleSolution.Domain.Aggregates
             Color color, 
             DateTime creationDate,
             FacebookUrl facebookUrl,
-            ApplicationUserId applicationUserId)
+            Guid businessUserId)
         {
             return new SomeAggregate
             {
@@ -40,11 +40,11 @@ namespace SampleSolution.Domain.Aggregates
                 Color = color,
                 CreationDate = creationDate,
                 FacebookUrl = facebookUrl,
-                ApplicationUserId = applicationUserId
+                BusinessUserId = businessUserId
             };
         }
 
-        public static SomeAggregate Create(CreateSomeDataCommand createCommand)
+        public static SomeAggregate Create(CreateSomeDataCommand createCommand, Guid businessUserId)
         {
             return new SomeAggregate
             {
@@ -56,8 +56,22 @@ namespace SampleSolution.Domain.Aggregates
                 Color = createCommand.Color,
                 CreationDate = createCommand.CreationDate,
                 FacebookUrl = createCommand.FacebookUrl,
-                ApplicationUserId = createCommand.ApplicationUserId
+                BusinessUserId = businessUserId
             };
+        }
+
+        public void ChangeFields(UpdateSomeDataCommand updateCommand)
+        {
+            if (updateCommand != null)
+            {
+                Color = updateCommand.Color;
+                CreationDate = updateCommand.CreationDate;
+                FacebookUrl = updateCommand.FacebookUrl;
+                FirstName = updateCommand.FirstName;
+                LastName = updateCommand.LastName;
+                MiddleName = updateCommand.MiddleName;
+                Title = updateCommand.Title;
+            }
         }
     }
 }

@@ -49,7 +49,7 @@ namespace SampleSolution.Mappers
                 new Color(persistanceModel.Color),
                 persistanceModel.CreationDate,
                 new FacebookUrl(persistanceModel.FacebookUrl),
-                persistanceModel.Id);
+                persistanceModel.BusinessUserId);
         }
     }
 }
