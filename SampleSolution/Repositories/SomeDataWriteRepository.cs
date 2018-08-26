@@ -50,7 +50,7 @@ namespace SampleSolution.Repositories
 
                     var someDatatoSave = SomeDataMapper.SomeAggregateToPersistanceModel(someData);
                     context.SomeData.Add(someDatatoSave);
-                    //context.SaveChanges();
+                    context.SaveChanges();
                 }
             }
             catch (Exception e)
@@ -131,16 +131,14 @@ namespace SampleSolution.Repositories
         {
             var someDataToUpdate = dbContext.SomeData.FirstOrDefault(d => d.Id == someData.Id);
 
-            if (someDataToUpdate != null)
-            {
-                someDataToUpdate.Color = someData.Color.Value;
-                someDataToUpdate.CreationDate = someData.CreationDate;
-                someDataToUpdate.FacebookUrl = someData.FacebookUrl.Value;
-                someDataToUpdate.FirstName = someData.FirstName;
-                someDataToUpdate.LastName = someData.LastName;
-                someDataToUpdate.MiddleName = someData.MiddleName;
-                someDataToUpdate.Title = someData.Title;
-            }
+            if (someDataToUpdate == null) return;
+            someDataToUpdate.Color = someData.Color.Value;
+            someDataToUpdate.CreationDate = someData.CreationDate;
+            someDataToUpdate.FacebookUrl = someData.FacebookUrl.Value;
+            someDataToUpdate.FirstName = someData.FirstName;
+            someDataToUpdate.LastName = someData.LastName;
+            someDataToUpdate.MiddleName = someData.MiddleName;
+            someDataToUpdate.Title = someData.Title;
         }
 
         //public void CopyToNewUser(ShareContactCommand shareContactCommand)
