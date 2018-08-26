@@ -83,15 +83,14 @@ namespace SampleSolution
             services.AddScoped<IQueryBus, QueryBus>();
             services.AddScoped<IEventBus, EventBus>();
 
-            services.AddScoped<ISomeDataReadService, SomeDataReadService>();
-
             services.AddScoped<ISomeDataWriteRepository, SomeDataWriteRepository>();
+            services.AddScoped<ISomeDataReadRepository, SomeDataReadRepository>();
             services.AddScoped<IUserStreamReadRepository, UserStreamReadRepository>();
             services.AddScoped<IUserStreamWriteRepository, UserStreamWriteRepository>();
-
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBusinessUserRepository, BusinessUserRepository>();
 
+            services.AddScoped<ISomeDataReadService, SomeDataReadService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<ICommandHandler<CreateSomeDataCommand>, SomeDataCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateSomeDataCommand>, SomeDataCommandHandler>();

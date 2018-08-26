@@ -19,7 +19,5 @@ namespace SampleSolution.Repositories
         void Delete(SomeAggregate someData, SomeDataContext dbContext);
         void Save(SomeAggregate someData);
         void Save(SomeAggregate someData, SomeDataContext dbContext);
-
-        List<SomeAggregate> GetSomeData(string userEmail);
     }
 }

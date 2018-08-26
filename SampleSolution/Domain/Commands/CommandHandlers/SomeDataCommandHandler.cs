@@ -1,18 +1,14 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Marten.Services;
+﻿using MediatR;
 using SampleSolution.Common.Domain.Commands;
 using SampleSolution.Common.Domain.Events;
+using SampleSolution.Data.Contexts;
+using SampleSolution.Domain.Aggregates;
 using SampleSolution.Domain.Commands.Commands;
 using SampleSolution.Domain.Events.Events;
 using SampleSolution.Repositories;
-using MediatR;
-using Microsoft.AspNetCore.SignalR;
-using SampleSolution.Data.Contexts;
-using SampleSolution.Domain.Aggregates;
-using SampleSolution.Mappers;
-using SampleSolution.Repositories.UnitOfWork;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SampleSolution.Domain.Commands.CommandHandlers
 {
@@ -42,7 +38,6 @@ namespace SampleSolution.Domain.Commands.CommandHandlers
             {
                 using (var context = _dbContext)
                 {
-                    //Alternatively make aggregate DDD repository on top of existing repositories.
                     var businessUser = _businessUserRepositoy.GetByApplicationUserId(request.ApplicationUserId, context);
                     var someData = SomeAggregate.Create(request, businessUser.Id);
                     _someDataWriteRepository.Create(someData, context);
@@ -77,16 +72,16 @@ namespace SampleSolution.Domain.Commands.CommandHandlers
 
                     context.SaveChanges();
                 }
+
+                _eventBus.Publish(new SomeDataDeletedEvent(request.Id));
+
+                return Unit.Task;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-
-            _eventBus.Publish(new SomeDataDeletedEvent(request.Id));
-
-            return Unit.Task;
         }
 
         public Task<Unit> Handle(UpdateSomeDataCommand request, CancellationToken cancellationToken)
@@ -102,30 +97,45 @@ namespace SampleSolution.Domain.Commands.CommandHandlers
 
                     context.SaveChanges();
                 }
+
+                _eventBus.Publish(new SomeDataUpdatedEvent(request.SomeDataId,
+                    request.FirstName,
+                    request.MiddleName,
+                    request.LastName,
+                    request.Title,
+                    request.Color,
+                    request.CreationDate,
+                    request.FacebookUrl));
+
+                return Unit.Task;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-
-            _eventBus.Publish(new SomeDataUpdatedEvent(request.SomeDataId,
-                request.FirstName,
-                request.MiddleName,
-                request.LastName,
-                request.Title,
-                request.Color,
-                request.CreationDate,
-                request.FacebookUrl));
-
-            return Unit.Task;
         }
 
         public Task<Unit> Handle(ShareContactCommand request, CancellationToken cancellationToken)
         {
-           // _someDataRepository.CopyToNewUser(request);
+            try
+            {
+                using (var context = _dbContext)
+                {
+                    var aggregate = _someDataWriteRepository.Get(request.ContactId, context);
+                    var copyWithNewOwner = aggregate.SendTo(request.RecipientUserId);
+                    _someDataWriteRepository.Create(copyWithNewOwner, context);
 
-            return Unit.Task;
+                    context.SaveChanges();
+                }
+
+                return Unit.Task;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

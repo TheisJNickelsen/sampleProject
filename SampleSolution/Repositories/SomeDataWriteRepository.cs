@@ -139,49 +139,7 @@ namespace SampleSolution.Repositories
             someDataToUpdate.LastName = someData.LastName;
             someDataToUpdate.MiddleName = someData.MiddleName;
             someDataToUpdate.Title = someData.Title;
-        }
-
-        //public void CopyToNewUser(ShareContactCommand shareContactCommand)
-        //{
-        //    try
-        //    {
-        //        using (var context = SomeDataEntities)
-        //        {
-        //            var contactToCopy =
-        //                context.SomeData.FirstOrDefault(k => k.Id == shareContactCommand.ContactId);
-
-        //            if (contactToCopy != null)
-        //            {
-        //                var copyWithNewOwner = new SomeData
-        //                {
-        //                    BusinessUserId = shareContactCommand.RecipientUserId,
-        //                    Color = contextToCreateWithNewId
-        //                };
-
-
-        //                context.SomeData.Add(copyWithNewOwner);
-        //            }
-
-        //            context.SaveChanges();
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e);
-        //        throw;
-        //    }
-        //}
-
-        public List<SomeAggregate> GetSomeData(string userEmail)
-        {
-            using (var context = SomeDataEntities)
-            {
-                var businessUser = context.BusinessUsers.FirstOrDefault(bu => bu.Identity.Email == userEmail);
-                var mySampleSolution = context.SomeData
-                    .Where(k => k.BusinessUserId == businessUser.Id)
-                    .Select(k => SomeDataMapper.PersistanceModelToAggregateRoot(k)).ToList();
-                return mySampleSolution;
-            }
+            someDataToUpdate.BusinessUserId = someData.BusinessUserId;
         }
     }
 }

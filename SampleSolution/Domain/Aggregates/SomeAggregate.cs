@@ -60,6 +60,22 @@ namespace SampleSolution.Domain.Aggregates
             };
         }
 
+        public static SomeAggregate Create(SomeAggregate someAggregate, Guid businessUserId)
+        {
+            return new SomeAggregate
+            {
+                Id = someAggregate.Id,
+                FirstName = someAggregate.FirstName,
+                MiddleName = someAggregate.MiddleName,
+                LastName = someAggregate.LastName,
+                Title = someAggregate.Title,
+                Color = someAggregate.Color,
+                CreationDate = someAggregate.CreationDate,
+                FacebookUrl = someAggregate.FacebookUrl,
+                BusinessUserId = businessUserId
+            };
+        }
+
         public void ChangeFields(UpdateSomeDataCommand updateCommand)
         {
             if (updateCommand != null)
@@ -72,6 +88,19 @@ namespace SampleSolution.Domain.Aggregates
                 MiddleName = updateCommand.MiddleName;
                 Title = updateCommand.Title;
             }
+        }
+
+        public SomeAggregate SendTo(Guid businessUserId)
+        {
+            return SomeAggregate.Create(Guid.NewGuid(), 
+                FirstName,
+                MiddleName,
+                LastName,
+                Title,
+                Color,
+                CreationDate,
+                FacebookUrl,
+                businessUserId);
         }
     }
 }
